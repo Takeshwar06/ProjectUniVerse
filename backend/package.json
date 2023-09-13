@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "smart education for variase colleges/univercity",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "always tiger",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.5.0",
+    "multer": "^1.4.5-lts.1",
+    "socket.io": "^4.7.2",
+    "unzipper": "^0.10.14"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
