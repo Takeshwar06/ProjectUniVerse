@@ -200,9 +200,31 @@ module.exports.upDateProjectFile = async (req, res, next) => {
 module.exports.getProjects=async(req,res,next)=>{
     try {
         const {student_id}=req.body;
-        const data=await Projects.find({student_id});
-        
+        const data=await Projects.find({student_id},{_id:1,titel:1,discription:1,usedTechnology:1,onGoing:1});
+        res.json(data);
     } catch (error) {
         next(error);
+    }
+}
+
+module.exports.getProject=async(req,res,next)=>{
+    try {
+        const project=await Projects.find({_id:req.params.id});
+        res.json(project);
+    } catch (error) {
+        res.json({success:false,msg:"internal server error"})
+        next(error);
+    }
+}
+
+module.exports.getCode=async(req,res,next)=>{
+    try {
+        const {path}=req.body;
+        fs.readFile(`Projects${path}`,(err,data)=>{
+            // console.log(data);
+            res.send(data);
+        })
+    } catch (error) {
+        
     }
 }

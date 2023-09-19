@@ -1,3 +1,6 @@
+
+
+
 import React, { useState, useEffect, useContext } from 'react'
 import Navbar from '../Components/Navbar'
 // eslint-disable-next-line
@@ -53,7 +56,10 @@ function File({ name,path}) {
     const {setCode}=useContext(mainContext);
     const codeFetch=async(path)=>{
        const data=await axios.post(getCode,{path});
-       const str=data.data.replace(/\\/g,'\n')
+       const str=data.data.replace(/
+
+/g,'
+n')
        setCode(str);
     }
     return (
