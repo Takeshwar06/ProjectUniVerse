@@ -2,15 +2,16 @@ const Projects = require("../models/projectModel");
 const unzipper = require('unzipper');
 const path = require("path");
 const fs = require("fs");
+
 module.exports.upLoadProject = async (req, res, next) => {
-    try {
-        const { titel, discription, student_id, link } = req.body;
+    try {  
+        const { titel, discription, student_id, usedTechnology, onGoing} = req.body;
         let folderStructure;
         let { originalname } = req.file;
         const folderName = originalname.slice(0, -4);
-        originalname = originalname.split(" ").join("");
+        originalname = originalname.split(" ").join("");   
         const zipBuffer = req.file.buffer;
-        const myPath = `uploads/${student_id}`
+        const myPath = `Projects/${student_id}`
         const newFileName = `${Date.now()}_${originalname}`
 
         // make dir
@@ -18,8 +19,9 @@ module.exports.upLoadProject = async (req, res, next) => {
             fs.mkdirSync(myPath, { recursive: true });
         }
         // uploading file
-        await fs.writeFileSync(`${myPath}/${newFileName}`, zipBuffer);
-        const fileUrl = `${req.protocol}://${req.get('host')}/${myPath}/${newFileName}`;
+         fs.writeFileSync(`${myPath}/${newFileName}`, zipBuffer);
+        let fileUrl = `${req.protocol}://${req.get('host')}/${myPath}/${newFileName}`;
+         fileUrl=fileUrl.replace("/Projects",""); // remove /Projects from url
         // extract zip file
 
         const zipFilePath = `./${myPath}/${newFileName}`; // Replace with the path to your ZIP file
@@ -36,7 +38,7 @@ module.exports.upLoadProject = async (req, res, next) => {
                     // Create a write stream for the file
                     const writeStream = fs.createWriteStream(entryPath);
                     entry.pipe(writeStream);
-                }
+                } 
             })
             .on('close', async () => {
                 console.log(`ZIP file extracted to ${extractionDir}`);
@@ -44,7 +46,7 @@ module.exports.upLoadProject = async (req, res, next) => {
                 const folderPathToTraverse = `./${myPath}/${folderName}`;
                 folderStructure = buildFolderStructure(folderPathToTraverse);
                 const project = await Projects.create({
-                    titel, discription, student_id, link, filePath: fileUrl, folderStructure
+                onGoing,titel, discription, student_id, usedTechnology, filePath: fileUrl, folderStructure
                 })
                 // res.status(200).json({msg:"Profile Created SuccessFully"});
                 // return res.json({ success: true, msg: "project upload with info" })
@@ -52,6 +54,7 @@ module.exports.upLoadProject = async (req, res, next) => {
 
             })
             .on('error', (err) => {
+                res.json({success:false,msg:"project not uploaded"})
                 console.error('Error extracting ZIP file:', err);
             });
 
@@ -79,7 +82,7 @@ module.exports.upLoadProject = async (req, res, next) => {
                     children.push({
                         type: 'file',
                         name: file,
-                        path: filePath,
+                        path: filePath.replace(/\\/g,"/").replace("Projects",""),
                     });
                 }
             });
@@ -90,7 +93,7 @@ module.exports.upLoadProject = async (req, res, next) => {
                 children,
             };
         }
-        // folderStructure=[{type:"folder",name:"tiger",children:[{type:"file",name:"tiger.txt",path:"http://fjfjf"}]}]
+        // // folderStructure=[{type:"folder",name:"tiger",children:[{type:"file",name:"tiger.txt",path:"http://fjfjf"}]}]
 
     } catch (error) {
         next(error);
@@ -100,12 +103,12 @@ module.exports.upLoadProject = async (req, res, next) => {
 module.exports.upDateProjectFile = async (req, res, next) => {
     try {
         const {student_id}=req.body;
-        let { originalname } = req.file;
+        let { originalname } = req.file;   
         let folderStructure;
         const folderName = originalname.slice(0, -4);
         originalname = originalname.split(" ").join("");
         const zipBuffer = req.file.buffer;
-        const myPath = `uploads/${student_id}`
+        const myPath = `Projects/${student_id}`
         const newFileName = `${Date.now()}_${originalname}`
         // make dir
         if (!fs.existsSync(myPath)) {
@@ -113,7 +116,9 @@ module.exports.upDateProjectFile = async (req, res, next) => {
         }
         // uploading file
         fs.writeFileSync(`${myPath}/${newFileName}`, zipBuffer);
-        const fileUrl = `${req.protocol}://${req.get('host')}/${myPath}/${newFileName}`;
+        let fileUrl = `${req.protocol}://${req.get('host')}/${myPath}/${newFileName}`;
+        fileUrl=fileUrl.replace("/Projects",""); // remove /Projects from url
+
         // extract file
         const zipFilePath = `./${myPath}/${newFileName}`; // Replace with the path to your ZIP file
         const extractionDir = `./${myPath}`; // Replace with the extraction destination
@@ -174,7 +179,7 @@ module.exports.upDateProjectFile = async (req, res, next) => {
                     children.push({
                         type: 'file',
                         name: file,
-                        path: filePath,
+                        path: filePath.replace(/\\/g,"/").replace("Projects",""),
                     });
                 }
             });
@@ -187,6 +192,16 @@ module.exports.upDateProjectFile = async (req, res, next) => {
         }
      
        
+    } catch (error) {
+        next(error);
+    }
+}
+
+module.exports.getProjects=async(req,res,next)=>{
+    try {
+        const {student_id}=req.body;
+        const data=await Projects.find({student_id});
+        
     } catch (error) {
         next(error);
     }

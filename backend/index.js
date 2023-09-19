@@ -1,8 +1,8 @@
-const PORT=process.env.PORT||5000;
-const MONGO_URL=process.env.MONGO_URL||'mongodb://localhost:27017/hackathon';
 
+require('dotenv').config();
 const express=require("express")
 const mongoose=require("mongoose");
+const cors=require("cors");
 const studentRoutes=require("./routes/studentRoutes");
 const projectRoutes=require("./routes/projectRoutes");
 const commentRoutes=require("./routes/commentRoutes");
@@ -12,7 +12,9 @@ const connectionRoutes=require("./routes/connectionRoutes");
 
 const app=express();
 app.use(express.json()); // for JSON requests
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("Projects"))
 
 // api for fetching data
 app.use("/api/students",studentRoutes);
@@ -22,6 +24,7 @@ app.use("/api/documentations",documentationRoutes);
 app.use("/api/notifications",notificationRoutes);
 app.use("/api/connections",connectionRoutes);
 
+
 // Set up the MongoDB connection pool
 const mongoOptions = {
     useNewUrlParser: true,
@@ -29,7 +32,7 @@ const mongoOptions = {
     // Adjust the pool size as needed
   };
   
-  mongoose.connect(MONGO_URL, mongoOptions);
+  mongoose.connect(process.env.MONGO_URL, mongoOptions);
   
   const db = mongoose.connection;
   
@@ -38,6 +41,6 @@ const mongoOptions = {
     console.log('Connected to MongoDB');
   });
 
-const server=app.listen(PORT,()=>{
-    console.log(`sever started on port ${PORT}`)
+const server=app.listen(process.env.PORT,()=>{
+    console.log(`sever started on port ${process.env.PORT}`)
 })

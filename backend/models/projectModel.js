@@ -14,27 +14,31 @@ const projectSchema= new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         required:true,
       },
-      type:{
-        type:String,
+      onGoing:{
+        type:Boolean,
         // required:true,
       },
       contributors:{
-        type:Array,
+        type:[String],
       },
       usedTechnology:{
         type:String,
-        
+        default:""
       },
       rating:{
         type:Number,
+        default:0
       },
       link:{
         type:String,
+        default:""
       },
       filePath:{
         type:String,
+        default:""
       },
       folderStructure: mongoose.Schema.Types.Mixed,
+      zipBuffer:Buffer,
       
 });
 module.exports= mongoose.model("Projects",projectSchema);

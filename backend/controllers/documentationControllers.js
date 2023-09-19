@@ -4,24 +4,25 @@ const Documentations = require("../models/documentationModel");
 module.exports.addDocumentation = async (req, res, next) => {
     try {
         let fileUrl = null;
-        if (req.file) {
-            let { originalname } = req.file;
-            originalname = originalname.split(" ").join("");
-            const zipBuffer = req.file.buffer;
-            const myPath = `uploads/documentation`
-            const newName = `${Date.now()}_${originalname}`
-
-            if (!fs.existsSync(myPath)) {
-                fs.mkdirSync(myPath, { recursive: true });
-            }
-            fs.writeFileSync(`${myPath}/${newName}`, zipBuffer);
-            fileUrl = `${req.protocol}://${req.get('host')}/${myPath}/${newName}`;
-        }
         const { heading, discription, project_id } = req.body;
-        const response = Documentations.create({
-            heading, discription, project_id, image: fileUrl
-        })
-        res.json(response);
+
+        if (req.files) {
+            const file = req.files.docImg;
+            // console.log(req.file);
+            cloudinary.uploader.upload(file.tempFilePath, async (err, result) => {
+                fileUrl = result.url;
+                const response = await Documentations.create({
+                    heading, discription, project_id, image: fileUrl
+                })
+                res.json(response);
+            })
+        }
+        else {
+            const response = await Documentations.create({
+                heading, discription, project_id, image: fileUrl
+            })
+            res.json(response);
+        }
 
     } catch (error) {
         next(error);
@@ -30,44 +31,37 @@ module.exports.addDocumentation = async (req, res, next) => {
 
 module.exports.upDateDocumentationImage = async (req, res, next) => {
     try {
-        if (!req.file) {
+        if (!req.files) {
             return res.status(400).send('No file uploaded.');
         }
-        let { originalname } = req.file;
-        originalname = originalname.split(" ").join("");
-        const zipBuffer = req.file.buffer;
-        const myPath = `uploads/documentation`
-        const newName = `${Date.now()}_${originalname}`
-
-        if (!fs.existsSync(myPath)) {
-            fs.mkdirSync(myPath, { recursive: true });
-        }
-
-        fs.writeFileSync(`${myPath}/${newName}`, zipBuffer);
-        const fileUrl = `${req.protocol}://${req.get('host')}/${myPath}/${newName}`;
-        let response = await Documentations.updateOne({ _id: req.params.id },
-            { $set: { image: fileUrl } });
-        res.json(response);
+        const file = req.files.docImg;
+        // console.log(req.file);
+        cloudinary.uploader.upload(file.tempFilePath, async (err, result) => {
+            fileUrl = result.url;
+            let response = await Documentations.updateOne({ _id: req.params.id },
+                { $set: { image: fileUrl } });
+            res.json(response);
+        })
 
     } catch (error) {
         next(error);
     }
 }
 
-module.exports.deleteDocumentation=async(req,res,next)=>{
+module.exports.deleteDocumentation = async (req, res, next) => {
     try {
-        const response=await Documentations.deleteOne({_id:req.params.id});
+        const response = await Documentations.deleteOne({ _id: req.params.id });
         res.json(response);
     } catch (error) {
         next(error);
     }
 }
 
-module.exports.upDateDocumentationText=async(req,res,next)=>{
+module.exports.upDateDocumentationText = async (req, res, next) => {
     try {
-        const {heading ,discription}=req.body;
-        const response=await Documentations.updateOne({ _id: req.params.id },
-            { $set: {heading,discription}});
+        const { heading, discription } = req.body;
+        const response = await Documentations.updateOne({ _id: req.params.id },
+            { $set: { heading, discription } });
         res.json(response);
     } catch (error) {
         next(error);
