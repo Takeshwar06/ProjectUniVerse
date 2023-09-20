@@ -1,0 +1,251 @@
+/* 👉 THIS IS CSS FOR RESPONSIVE DESIGN IN MOBILE TABLES  */
+.code_space {
+  overflow: hidden;
+}
+.do-not-show{
+  display: none;
+}
+.project_upload::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  filter: blur(10px); /* Apply the blur effect to the background */
+  z-index: -1;
+}
+
+/* 1️⃣ LOGIN/CREATE/AUTHENTICATION PAGE CSS STYLE */
+
+@media (max-width: 600px) {
+  /* when mobile size screen then decrease width */
+  .create_form,
+  .login_form,
+  .login_heading,
+  .login_contenet {
+    width: 25rem;
+  }
+  .create_form,
+  .login_form {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* 2️⃣ PROFILE PAGE COMPONENT CSS STYLE */
+
+.grade_icon {
+  /* rating icon */
+  width: 40px;
+  border-radius: 7px;
+}
+
+@media (max-width: 1368px) {
+  .user_all_skills {
+    min-width: 25vw;
+  }
+  .basic_details {
+    min-width: 300px;
+  }
+}
+@media (max-width: 1368px) {
+  .basic_details {
+    padding: 0;
+  }
+}
+
+@media (max-width: 1000px) {
+  .user_all_skills {
+    max-width: 500px;
+  }
+  /* change layout of project card */
+  .all_projects_container {
+    padding: 2rem;
+  }
+  .project_box {
+    min-width: 335px;
+  }
+  .technology_name,
+  .project_name,
+  .description_name {
+    font-size: 1.2rem;
+  }
+  .technology_value,
+  .name_value,
+  .description_value {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 870px) {
+  /* when select options then fix their sizef */
+  /* .selected_technology {
+    max-width: 100%;
+  } */
+  .technologies_names {
+    max-width: 100%;
+  }
+
+  /* heading of profile container */
+  .heading_container {
+    padding: 0.75rem;
+  }
+
+  .user_details {
+    gap: 1rem;
+  }
+  .top_details {
+    padding: 0 0;
+  }
+  .imp_show {
+    width: 100%;
+  }
+  .bio {
+    max-width: 100%;
+  }
+  .social_links {
+    /* padding-left: 25vw; */
+    margin: auto;
+    width: auto;
+  }
+  .background_info {
+    /* padding-left: 25vw; */
+    margin: auto;
+    width: auto;
+  }
+  .bio_details {
+    width: 90vw;
+  }
+  .textarea_bio {
+    width: 90vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .user_all_skills {
+    max-width: 100vw;
+  }
+  /* heading of profile container */
+  .edit_profile_box {
+    gap: 0.5rem;
+  }
+
+  .edit_choice {
+    font-size: 0.8rem;
+  }
+  .profile_container_heading {
+    font-size: 1rem;
+  }
+}
+
+/* 3️⃣ UPLOAD PROJECT COMPONENT CSS STYLE */
+@media (max-width: 600px) {
+  .upload_part {
+    width: 25rem;
+  }
+}
+
+/* 4. PROJECT PAGE WHERE DETAILED DISPLAY */
+@media (max-width: 600px) {
+  .project_links,
+  .user_rating,
+  .project_buttons,
+  .show_contributers {
+    min-width: 100px;
+  }
+
+  .actual_code {
+    min-width: 20rem;
+    margin: 0;
+  }
+  .code_space {
+    padding: 0.5rem;
+    overflow: hidden;
+  }
+}
+
+/* 5.DOCUMENTATION PAGE DESINGSd */
+
+@media (max-width: 802px) {
+  .project_folder_container {
+    flex-direction: column;
+  }
+  .folder_structures {
+    width: 100%;
+    /* padding : 1rem 2rem; */
+    padding-left: 3rem;
+  }
+  .code_heading {
+    padding: 0 1rem;
+  }
+
+  .project_properties {
+    display: grid;
+    grid-template-columns: 155px 1fr;
+  }
+}
+
+@media (max-width: 990px) {
+  .docs_textarea_form {
+    width: 24rem;
+    min-width: 24rem;
+  }
+  .docs_textarea_box {
+    width: 24rem;
+    min-width: 24rem;
+    height: 14rem;
+  }
+  .page_description {
+    width: 24rem;
+  }
+}
+@media (max-width: 824px) {
+  .page_info_box {
+    flex-direction: column;
+  }
+  .docs_textarea_form {
+    height: 9rem;
+  }
+  .docs_textarea_box {
+    height: 9rem;
+  }
+}
+
+/* 5.DOCUMENTATION PAGE DESINGSd */
+@media (max-width: 1009px) {
+  /* card of */
+  .person_details {
+    min-width: 23rem;
+  }
+  .messages_container {
+    min-width: 50vw;
+  }
+}
+@media (max-width: 821px) {
+  .messages_container {
+    /* display: none; */
+    min-width: 100vw;
+    min-height: 85vh;
+  }
+  .all_person_list {
+    width: 100%;
+    /* padding: 0; */
+    min-width: 24rem;
+  }
+  .communication_message_container {
+    flex-direction: column;
+  }
+
+  .messages_container {
+    /* min-width: 23rem; */
+    display: flex;
+    border: 1px;
+  }
+}
+@media (max-width: 410px) {
+  /* card of */
+  .person_details {
+    min-width: 20rem;
+  }
+}

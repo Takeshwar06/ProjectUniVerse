@@ -1,0 +1,58 @@
+/* Include Tailwind CSS base styles, components, and utilities */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Set the background color for the body with opacity */
+body {
+  --tw-bg-opacity: 1;
+  background-color: rgb(15 23 42 / var(--tw-bg-opacity));
+}
+
+.flex-3{
+  @apply flex justify-center items-center;
+}
+.flex-2{
+  @apply flex items-center;
+}
+.flex-all{
+  @apply flex flex-col justify-center items-center;
+}
+
+/* Style for custom navigation links (Feature of TalwindCSS) */
+.custom-nav-link {
+  @apply flex gap-1 items-center cursor-pointer font-signika justify-center hover:bg-slate-700 px-3 py-2 transition-all duration-300 hover:opacity-90 rounded-2xl;
+}
+
+/* Define a custom transition class */
+.custom-transition {
+  @apply transition-all duration-300 ease-in;
+}
+
+.custom-button {
+  @apply py-1 px-3 w-fit bg-green-700  opacity-95 hover:text-slate-200 transition-all duration-300 rounded-md text-xl shadow-md shadow-pink-300 font-signika;
+}
+
+
+
+/* in profile secction when technology select */
+.selected_options {
+  @apply flex justify-center text-[1rem] cursor-pointer items-center gap-1 bg-gray-100 text-black rounded-lg pl-[1px] h-[1.3rem];
+}
+.selected_options_close {
+  @apply bg-gray-400 cursor-pointer h-[1.2rem] w-[1.2rem] rounded-md hover:bg-gray-300;
+}
+
+/* heading of h1 */
+.left_heading {
+  @apply text-3xl font-semibold opacity-95 tracking-wide;
+}
+
+/* custom values of keys */
+.custom-values{
+  @apply text-gray-300 text-[1.2rem];
+}
+/* favoritae button of project */
+.fav_button{
+  @apply py-0 px-3 w-fit bg-green-700  opacity-95 hover:text-slate-200 transition-all duration-300 rounded-md text-lg shadow-sm shadow-pink-300 font-signika;
+}
